@@ -54,7 +54,7 @@ class Account extends React.Component {
         </div>;
       this.setState({ template });
     } else {
-      this.props.history.push("/login");
+      this.props.history.push("/zezz-quizz/login");
     }
   }
 

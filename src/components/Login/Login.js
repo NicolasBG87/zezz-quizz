@@ -54,7 +54,7 @@ class Login extends React.Component {
         };
         let url = "/ladder.json";
         axios.post(url, newUser);
-        this.props.history.push("/")
+        this.props.history.push("/zezz-quizz")
       })
       .catch(err => {
         this.setState({ error: err.message });
@@ -77,7 +77,7 @@ class Login extends React.Component {
           let url = "/ladder.json";
           axios.post(url, newUser);
         }
-        this.props.history.push("/")
+        this.props.history.push("/zezz-quizz")
       })
       .catch(err => {
         this.setState({ error: err.message });
@@ -99,7 +99,7 @@ class Login extends React.Component {
           let url = "/ladder.json";
           axios.post(url, newUser);
         }
-        this.props.history.push("/")
+        this.props.history.push("/zezz-quizz")
       })
       .catch(err => {
         this.setState({ error: err.message });
@@ -121,7 +121,7 @@ class Login extends React.Component {
           let url = "/ladder.json";
           axios.post(url, newUser);
         }
-        this.props.history.push("/")
+        this.props.history.push("/zezz-quizz")
       })
       .catch(err => {
         this.setState({ error: err.message });

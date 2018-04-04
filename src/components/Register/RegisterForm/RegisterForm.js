@@ -44,7 +44,7 @@ class SignUpForm extends Component {
         let url = "/ladder.json";
         axios.post(url, newUser);
         this.setState(() => ({ ...INITIAL_STATE }));
-        this.props.history.push("/");
+        this.props.history.push("/zezz-quizz");
       })
       .catch(err => {
         this.setState(byPropKey("error", err));
