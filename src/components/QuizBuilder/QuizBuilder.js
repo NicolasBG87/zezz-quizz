@@ -3,24 +3,22 @@ import classes from './QuizBuilder.css';
 
 import axios from '../../constants/axios';
 import { withRouter } from 'react-router-dom';
+import firebase from 'firebase';
 
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import {Tabs, Tab} from 'material-ui/Tabs';
-
-const tabStyles = {
-  headline: {
-    fontSize: 18,
-    paddingTop: 10,
-    marginBottom: 0,
-    fontWeight: 400,
-  },
-};
+import {
+  Step,
+  Stepper,
+  StepLabel,
+  StepContent,
+} from 'material-ui/Stepper';
 
 class QuizBuilder extends React.Component {
   state = {
     alertOpen: false,
+    stepIndex: 0,
     alertMsg: "",
     quiz: {
       name: "",
@@ -58,6 +56,7 @@ class QuizBuilder extends React.Component {
         this.alertOpen();
       } else {
         this.setState({ quiz });
+        this.handleNext();
       }
   }
 
@@ -93,6 +92,7 @@ class QuizBuilder extends React.Component {
         content: stateContent
         }
       });
+      this.handleNext();
     }
   }
 
@@ -110,26 +110,55 @@ class QuizBuilder extends React.Component {
     } else {
       axios.post('/quizes.json', data)
       .then(res => {
-        this.setState({ alertMsg: "Quiz successfully submitted!"});
+        this.setState({ 
+          alertMsg: "Quiz successfully submitted!",
+          stepIndex: 0,
+          quiz: {
+            name: "",
+            topic: "",
+            author: "",
+            url: "",
+            content: [],
+          },
+        });
         this.alertOpen();
-        this.props.history.push("/zezz-quiz/quizzes");
       })
       .catch(err => {
-        this.setState({ alertMsg: err.message });
+        this.setState({ 
+          alertMsg: err.message,
+        });
         this.alertOpen();
       });
     } 
   }
 
+  handleNext = () => {
+    const {stepIndex} = this.state;
+    this.setState({
+      stepIndex: stepIndex + 1
+    });
+    if(stepIndex === 11) {
+      this.postData();
+      this.setState({ alertMsg: "Quiz successfully uploaded!"});
+      this.alertOpen();
+    }
+  };
+
   render() {
     const questions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const {stepIndex} = this.state;
+    const user = 
+      firebase.auth().currentUser ? 
+      firebase.auth().currentUser.displayName :
+      "Guest";
 
     return (
       <div className={classes.QuizBuilder}>
-          <Tabs>
-            <Tab label="Info" key="quizInfo">
-              <h2 style={tabStyles.headline}>Quiz Info</h2>
-              <form onSubmit={this.addQuizInfo}>
+        <Stepper activeStep={stepIndex} orientation="vertical">
+          <Step>
+            <StepLabel>Quiz Info</StepLabel>
+            <StepContent>
+            <form onSubmit={this.addQuizInfo}>
                 <TextField
                   hintText="e.g. ZeZZalica"
                   floatingLabelText="Quiz Name"
@@ -162,14 +191,13 @@ class QuizBuilder extends React.Component {
                   style={{ margin: "20px 0" }}
                 />
               </form>
-            </Tab>
-
-            {questions.map(question => {
-              return (
-                <Tab 
-                  label={question}
-                  key={question} >
-                  <h2 style={tabStyles.headline}>Question {question}</h2>
+            </StepContent>
+          </Step>
+          {questions.map((question, index) => {
+            return (
+              <Step key={index}>
+                <StepLabel>Question {index+1}</StepLabel>
+                <StepContent>
                   <form onSubmit={this.addQuizContent}>
                     <TextField
                       hintText="e.g. What's the name of a golum in Lord of the Rings"
@@ -215,15 +243,27 @@ class QuizBuilder extends React.Component {
                       style={{ margin: "20px auto"}}
                     />
                   </form>
-                </Tab>
-              );
-            })}
-          </Tabs>
-          <RaisedButton
-            label="Upload Quiz"
-            primary={true}
-            onClick={this.postData}
-          />
+                </StepContent>
+              </Step>
+            );
+          })}
+          <Step>
+            <StepLabel>Upload Your Quiz</StepLabel>
+            <StepContent>
+              <p>
+                What a long, strange trip it's been! Well done, {user}!
+              </p>
+              <p> 
+                Your quiz will be uploaded and immediately accessible. While creator's dashboard is under construction, you can contact me at nikolabojanovicmob@gmail.com if you wish to edit or delete your quiz.
+              </p>
+              <RaisedButton
+                label="Finish"
+                primary={true}
+                onClick={this.postData}
+              />
+            </StepContent>
+          </Step>
+        </Stepper>
         <Dialog
           modal={false}
           open={this.state.alertOpen}
