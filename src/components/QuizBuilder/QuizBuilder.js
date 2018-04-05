@@ -2,6 +2,7 @@ import React from 'react';
 import classes from './QuizBuilder.css';
 
 import axios from '../../constants/axios';
+import { withRouter } from 'react-router-dom';
 
 import Dialog from 'material-ui/Dialog';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -111,6 +112,7 @@ class QuizBuilder extends React.Component {
       .then(res => {
         this.setState({ alertMsg: "Quiz successfully submitted!"});
         this.alertOpen();
+        this.props.history.push("/zezz-quiz/quizzes");
       })
       .catch(err => {
         this.setState({ alertMsg: err.message });
@@ -234,4 +236,4 @@ class QuizBuilder extends React.Component {
   }
 }
 
-export default QuizBuilder;
+export default withRouter(QuizBuilder);
