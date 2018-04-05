@@ -121,10 +121,7 @@ class Play extends Component {
     let json = { ...this.state.json};
     let keys = Object.keys(json);
     keys.map(key => {
-      if(
-        json[key].user === data.user && 
-        json[key].email === data.email
-      ) {
+      if(json[key].email === data.email) {
         let url = `ladder/${key}/.json`;
         let totalScore = json[key].score += this.state.score;
         axios.patch(url, { score: totalScore});
