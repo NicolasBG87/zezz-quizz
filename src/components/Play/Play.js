@@ -23,7 +23,9 @@ class Play extends Component {
     question: 0,
     dialogOpen: false,
     user: "Guest",
-    json: null
+    json: null,
+    messageColor: "",
+    messageText: "",
   }
 
   handleOpen = () => {
@@ -60,13 +62,33 @@ class Play extends Component {
     if (this.state.question < 9) {
       if(answer === correct) {
         score += 10;
-        this.setState({ score });
+        this.setState({ 
+          score,
+          messageColor: "green",
+          messageText: `Correct! TOTAL POINTS: ${score}`,
+        });
+      } else {
+        this.setState({
+          messageColor: "red",
+          messageText: `Wrong! Correct answer was: ${correct}. TOTAL POINTS: ${score}`,
+        });
       }
-      this.nextQuestion();
+      setTimeout(() =>{
+        this.nextQuestion();
+      }, 2000);
     } else {
       if(answer === correct) {
         score += 10;
-        this.setState({ score });
+        this.setState({ 
+          score,
+          messageColor: "green",
+          messageText: `Correct! TOTAL POINTS: ${score}`,
+        });
+      } else {
+        this.setState({
+          messageColor: "red",
+          messageText: `Wrong! Correct answer was: ${correct}. TOTAL POINTS: ${score}`,
+        });
       }
       let user = auth.currentUser;
       if(user === null) {
@@ -160,16 +182,19 @@ class Play extends Component {
           <Button 
             label={this.state.currentContent.answers[3]}
             click={this.checkAnswer} />
-          <Dialog
-            title={`Well done, ${this.state.user}`}
-            actions={actions}
-            modal={true}
-            open={this.state.dialogOpen}
-          >
-            Your score is {this.state.score}!
-            <p>{dialogMessage}</p>
-          </Dialog>
+          <p style={{color: this.state.messageColor}}>
+            {this.state.messageText}
+          </p>
         </div>
+        <Dialog
+          title={`Well done, ${this.state.user}`}
+          actions={actions}
+          modal={true}
+          open={this.state.dialogOpen}
+        >
+          Your score is {this.state.score}!
+          <p>{dialogMessage}</p>
+        </Dialog>
       </div>
     );
   }
