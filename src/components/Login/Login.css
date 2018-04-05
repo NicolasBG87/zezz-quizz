@@ -1,7 +1,8 @@
 .Login {
   text-align: center;
   margin: 20px auto 60px auto;
-  width: 500px;
+  width: 80%;
+  max-width: 500px;
   border-radius: 10px;
   background-color: #fff;
   padding: 20px;

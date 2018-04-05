@@ -27,6 +27,9 @@ class Ladder extends React.Component {
         }
         data.sort(sortData);
         this.setState({ data });
+      })
+      .catch(err => {
+        return false;
     });
   }
 

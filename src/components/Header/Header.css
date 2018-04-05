@@ -19,6 +19,12 @@
   vertical-align: top;
 }
 
+@media screen and (max-width: 500px) {
+  .Title {
+    display: none;
+  }
+}
+
 .Login {
   color: #3fb0ac;
   text-decoration: none;

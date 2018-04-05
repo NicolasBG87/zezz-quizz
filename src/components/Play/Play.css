@@ -6,7 +6,7 @@
   border-radius: 10px;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.7);
   text-align: center;
-  padding: 20px 0;
+  padding: 20px;
 }
 
 .Question {
@@ -17,6 +17,7 @@
   border-radius: 5px;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.7);
   padding: 10px 20px;
+  overflow-wrap: break-word;
 }
 
 .ButtonGrp {

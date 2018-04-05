@@ -8,9 +8,9 @@ import * as routes from '../../constants/routes';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import CircularProgress from 'material-ui/CircularProgress';
 
 import Quiz from './Quiz/Quiz';
-
 
 class Quizzes extends Component {
   state = {
@@ -23,7 +23,11 @@ class Quizzes extends Component {
         .then(data => {
           this.setState({data});
           this.props.addContent(data);
-        }));
+        })
+        .catch(err => {
+          return false;
+        })
+      );
   }
 
   componentWillMount() {
@@ -33,7 +37,12 @@ class Quizzes extends Component {
   render() {
     let quizzes;
     if(this.state.data === null) {
-      quizzes = <h1>No quizes available at this moment.</h1>;
+      quizzes = 
+        <CircularProgress 
+          size={80}
+          thickness={10}
+          className={classes.Spinner}
+        />;
     } else {
       quizzes = <Quiz data={this.state.data} />;
     }

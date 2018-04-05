@@ -115,7 +115,7 @@ class Play extends Component {
     const actions = [
       <Link to={routes.QUIZZES}>
         <RaisedButton
-          label="Back To Quizzes"
+          label="Quizzes"
           primary={true}
           onClick={this.handleClose}
           style={{ 
@@ -126,7 +126,7 @@ class Play extends Component {
       </Link>,
       <Link to={routes.LADDER}>
         <RaisedButton
-          label="Go To Ladderboard"
+          label="Ladderboard"
           primary={true}
           onClick={this.handleClose}
           style={{ 
