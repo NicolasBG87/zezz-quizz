@@ -6,3 +6,4 @@ export const QUIZZES = '/zezz-quizz/quizzes';
 export const QUIZ_BUILDER = '/zezz-quizz/quiz-builder';
 export const LADDER = '/zezz-quizz/ladder';
 export const PLAY = '/zezz-quizz/play';
+export const NOT_FOUND = '/*';

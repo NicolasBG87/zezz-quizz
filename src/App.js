@@ -20,6 +20,7 @@ import Quizzes from './components/Quizzes/Quizzes';
 import Ladder from './components/Ladder/Ladder';
 import Play from './components/Play/Play';
 import QuizBuilder from './components/QuizBuilder/QuizBuilder';
+import NotFound from './components/NotFound/NotFound';
 
 
 class App extends React.Component {
@@ -66,6 +67,9 @@ class App extends React.Component {
           <Route 
             exact path={routes.QUIZ_BUILDER} 
             component={() => <QuizBuilder />} />
+          <Route
+            path={routes.NOT_FOUND}
+            component={() => <NotFound />} />
           <Footer />
         </div>
       </BrowserRouter>
