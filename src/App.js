@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import { checkUser } from './constants/actions';
 import { 
   BrowserRouter,
-  Route 
+  Route,
+  Switch
 } from 'react-router-dom';
 
 import Navigation from './components/Navigation/Navigation';
@@ -43,33 +44,35 @@ class App extends React.Component {
         <div>
           <Header />
           <Navigation />
-          <Route 
-            exact path={routes.LANDING}
-            component={() => <LandingPage />} />
-          <Route 
-            exact path={routes.REGISTER}
-            component={() => <RegisterPage />} />
-          <Route 
-            exact path={routes.LOGIN}
-            component={() => <LoginPage />} />
-          <Route 
-            exact path={routes.ACCOUNT}
-            component={() => <AccountPage />} />
-          <Route 
-            exact path={routes.QUIZZES}
-            component={() => <Quizzes />} />
-          <Route 
-            exact path={routes.LADDER}
-            component={() => <Ladder />} />
-          <Route 
-            path={routes.PLAY} 
-            component={() => <Play />} />
-          <Route 
-            exact path={routes.QUIZ_BUILDER} 
-            component={() => <QuizBuilder />} />
-          <Route
-            path={routes.NOT_FOUND}
-            component={() => <NotFound />} />
+          <Switch>
+            <Route 
+              exact path={routes.LANDING}
+              component={() => <LandingPage />} />
+            <Route 
+              exact path={routes.REGISTER}
+              component={() => <RegisterPage />} />
+            <Route 
+              exact path={routes.LOGIN}
+              component={() => <LoginPage />} />
+            <Route 
+              exact path={routes.ACCOUNT}
+              component={() => <AccountPage />} />
+            <Route 
+              exact path={routes.QUIZZES}
+              component={() => <Quizzes />} />
+            <Route 
+              exact path={routes.LADDER}
+              component={() => <Ladder />} />
+            <Route 
+              path={routes.PLAY} 
+              component={() => <Play />} />
+            <Route 
+              exact path={routes.QUIZ_BUILDER} 
+              component={() => <QuizBuilder />} />
+            <Route
+              path={routes.NOT_FOUND}
+              component={() => <NotFound />} />
+          </Switch>
           <Footer />
         </div>
       </BrowserRouter>
