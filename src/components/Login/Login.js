@@ -47,14 +47,7 @@ class Login extends React.Component {
     });
     auth.signInWithEmailAndPassword(loginData.email, loginData.password)
       .then(res => {
-        let newUser = {
-          user: loginData.user,
-          email: loginData.email,
-          score: 0
-        };
-        let url = "/ladder.json";
-        axios.post(url, newUser);
-        this.props.history.push("/zezz-quizz")
+        this.props.history.push("/zezz-quizz");
       })
       .catch(err => {
         this.setState({ error: err.message });

@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 import * as routes from '../../constants/routes';
 import axios from '../../constants/axios';
 import { auth } from '../../constants/firebase/firebase';
+import firebase from 'firebase';
 import { connect } from 'react-redux';
 
-import Button from './Button/Button';
 import Dialog from 'material-ui/Dialog';
 import { RaisedButton } from 'material-ui';
 
@@ -26,6 +26,7 @@ class Play extends Component {
     json: null,
     messageColor: "",
     messageText: "",
+    clickable: true,
   }
 
   handleOpen = () => {
@@ -51,11 +52,14 @@ class Play extends Component {
     question += 1;
     this.setState({ 
       question,
-      currentContent: this.state.content[question]
+      clickable: true,
+      currentContent: this.state.content[question],
+      messageText: "",
     });
   }
 
   checkAnswer = (e) => {
+    this.setState({ clickable: false });
     let score = this.state.score;
     const answer = e.target.textContent;
     const correct = this.state.currentContent.correct;
@@ -66,6 +70,7 @@ class Play extends Component {
           score,
           messageColor: "green",
           messageText: `Correct! TOTAL POINTS: ${score}`,
+          clickable: false,
         });
       } else {
         this.setState({
@@ -90,7 +95,7 @@ class Play extends Component {
           messageText: `Wrong! Correct answer was: ${correct}. TOTAL POINTS: ${score}`,
         });
       }
-      let user = auth.currentUser;
+      let user = firebase.auth().currentUser;
       if(user === null) {
         this.handleOpen();
       } else {
@@ -116,14 +121,14 @@ class Play extends Component {
         });
       });
   }
-
+  0
   updateScore = (data) => {
-    let json = { ...this.state.json};
-    let keys = Object.keys(json);
+    let json = this.state.json;
+    let keys = Object.keys(this.state.json);
     keys.map(key => {
       if(json[key].email === data.email) {
-        let url = `ladder/${key}/.json`;
-        let totalScore = json[key].score += this.state.score;
+        let url = `ladder/${key}.json`;
+        let totalScore = json[key].score + this.state.score;
         axios.patch(url, { score: totalScore});
       }
       return null;
@@ -161,24 +166,35 @@ class Play extends Component {
     } else {
       dialogMessage = "You have to register in order to be ranked!";
     }
+
+    let btnState = this.state.clickable ? e => this.checkAnswer(e) : null;
+
     return (
       <div className={classes.Play}>
         <img src={image} alt={image} className={classes.Image} />
         <p>{this.state.question + 1} - 10</p>
         <h2 className={classes.Question}>{this.state.currentContent.question}</h2>
         <div className={classes.ButtonGrp}>
-          <Button 
-            label={this.state.currentContent.answers[0]}
-            click={this.checkAnswer} />
-          <Button 
-            label={this.state.currentContent.answers[1]}
-            click={this.checkAnswer} />
-          <Button 
-            label={this.state.currentContent.answers[2]}
-            click={this.checkAnswer} />
-          <Button 
-            label={this.state.currentContent.answers[3]}
-            click={this.checkAnswer} />
+          <p
+            className={classes.Button}
+            onClick={btnState}>
+            {this.state.currentContent.answers[0]}
+          </p>
+          <p
+            className={classes.Button}
+            onClick={btnState}>
+            {this.state.currentContent.answers[1]}
+          </p>
+          <p
+            className={classes.Button}
+            onClick={btnState}>
+            {this.state.currentContent.answers[2]}
+          </p>
+          <p
+            className={classes.Button}
+            onClick={btnState}>
+            {this.state.currentContent.answers[3]}
+          </p>
           <p style={{color: this.state.messageColor}}>
             {this.state.messageText}
           </p>
